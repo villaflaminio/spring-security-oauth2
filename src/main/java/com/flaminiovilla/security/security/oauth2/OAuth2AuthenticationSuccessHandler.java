@@ -4,7 +4,9 @@ import com.flaminiovilla.security.config.AppProperties;
 import com.flaminiovilla.security.exception.BadRequestException;
 import com.flaminiovilla.security.security.TokenProvider;
 import com.flaminiovilla.security.util.CookieUtils;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -45,7 +50,26 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         clearAuthenticationAttributes(request, response);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
+        try{
+
+            //preparo la risposta da inviare al FE con Username, Authorities e Duration del token di autenticazione
+            Gson gson = new Gson();
+            response.setHeader("Access-Control-Expose-Headers", "*");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            Map<String,Object> ret = new HashMap<String, Object>();
+            ret.put("id",5);
+
+
+            response.getWriter().write(gson.toJson(ret));
+
+        }catch ( Exception e){
+            e.printStackTrace();
+        }
+       // getRedirectStrategy().sendRedirect(request, response, targetUrl); // effettua il redirect aggiungendo il token di autenticazione
+        //
+
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
