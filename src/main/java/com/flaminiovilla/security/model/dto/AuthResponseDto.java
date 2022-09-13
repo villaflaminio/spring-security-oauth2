@@ -1,14 +1,20 @@
 package com.flaminiovilla.security.model.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
 
 @Data
+@Builder
 public class AuthResponseDto {
-    private String accessToken;
-    private String tokenType = "Bearer";
-
-    public AuthResponseDto(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    public long id;
+    public String email;
+    public String name;
+    public Collection<? extends SimpleGrantedAuthority> role;
+    public String token;
+    public String refreshToken;
+    public String duration;
 
 }

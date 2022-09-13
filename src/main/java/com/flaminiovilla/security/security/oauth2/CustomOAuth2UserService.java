@@ -2,12 +2,15 @@ package com.flaminiovilla.security.security.oauth2;
 
 import com.flaminiovilla.security.exception.OAuth2AuthenticationProcessingException;
 import com.flaminiovilla.security.model.AuthProvider;
+import com.flaminiovilla.security.model.Role;
 import com.flaminiovilla.security.model.User;
+import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.UserPrincipal;
 import com.flaminiovilla.security.security.oauth2.user.OAuth2UserInfo;
 import com.flaminiovilla.security.security.oauth2.user.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,7 +19,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -24,7 +29,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private RoleRepository roleRepository;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
@@ -63,6 +69,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruolo non trovato"));
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(role);
+
         User user = new User();
 
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
@@ -70,6 +80,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 

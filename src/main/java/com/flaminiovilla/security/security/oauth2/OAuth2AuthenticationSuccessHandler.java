@@ -48,28 +48,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
-
         clearAuthenticationAttributes(request, response);
-
         try{
-
-            //preparo la risposta da inviare al FE con Username, Authorities e Duration del token di autenticazione
-            Gson gson = new Gson();
-            response.setHeader("Access-Control-Expose-Headers", "*");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            Map<String,Object> ret = new HashMap<String, Object>();
-            ret.put("id",5);
-
-
-            response.getWriter().write(gson.toJson(ret));
-
+            response  = tokenProvider.createAuthResponse(authentication , response);
         }catch ( Exception e){
             e.printStackTrace();
         }
        // getRedirectStrategy().sendRedirect(request, response, targetUrl); // effettua il redirect aggiungendo il token di autenticazione
-        //
-
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -83,6 +68,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
         String token = tokenProvider.createToken(authentication);
+
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
