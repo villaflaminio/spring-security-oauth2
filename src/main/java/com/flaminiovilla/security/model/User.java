@@ -1,5 +1,6 @@
 package com.flaminiovilla.security.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.flaminiovilla.security.model.dto.AuthProvider;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -4,7 +4,7 @@ import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.CurrentUser;
-import com.flaminiovilla.security.security.UserPrincipal;
+import com.flaminiovilla.security.model.dto.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.flaminiovilla.security.model;
+package com.flaminiovilla.security.model.dto;
 
 import lombok.Data;
 

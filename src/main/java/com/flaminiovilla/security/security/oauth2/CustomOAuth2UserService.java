@@ -1,14 +1,14 @@
 package com.flaminiovilla.security.security.oauth2;
 
 import com.flaminiovilla.security.exception.OAuth2AuthenticationProcessingException;
-import com.flaminiovilla.security.model.AuthProvider;
+import com.flaminiovilla.security.model.dto.AuthProvider;
 import com.flaminiovilla.security.model.Role;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
-import com.flaminiovilla.security.security.UserPrincipal;
-import com.flaminiovilla.security.security.oauth2.user.OAuth2UserInfo;
-import com.flaminiovilla.security.security.oauth2.user.OAuth2UserInfoFactory;
+import com.flaminiovilla.security.model.dto.UserPrincipal;
+import com.flaminiovilla.security.security.oauth2.provider.OAuth2UserInfo;
+import com.flaminiovilla.security.security.oauth2.provider.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;

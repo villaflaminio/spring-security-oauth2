@@ -3,6 +3,7 @@ package com.flaminiovilla.security.security;
 
 import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.User;
+import com.flaminiovilla.security.model.dto.UserPrincipal;
 import com.flaminiovilla.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

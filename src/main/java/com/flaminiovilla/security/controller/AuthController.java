@@ -3,15 +3,11 @@ package com.flaminiovilla.security.controller;
 import com.flaminiovilla.security.config.AppProperties;
 import com.flaminiovilla.security.exception.BadRequestException;
 import com.flaminiovilla.security.model.*;
-import com.flaminiovilla.security.model.dto.ApiResponseDto;
-import com.flaminiovilla.security.model.dto.AuthResponseDto;
-import com.flaminiovilla.security.model.dto.LoginRequestDto;
-import com.flaminiovilla.security.model.dto.SignUpRequestDto;
+import com.flaminiovilla.security.model.dto.*;
 import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.RefreshTokenService;
 import com.flaminiovilla.security.security.TokenProvider;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")

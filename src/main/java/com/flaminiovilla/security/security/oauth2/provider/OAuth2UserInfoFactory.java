@@ -1,7 +1,7 @@
-package com.flaminiovilla.security.security.oauth2.user;
+package com.flaminiovilla.security.security.oauth2.provider;
 
 import com.flaminiovilla.security.exception.OAuth2AuthenticationProcessingException;
-import com.flaminiovilla.security.model.AuthProvider;
+import com.flaminiovilla.security.model.dto.AuthProvider;
 
 import java.util.Map;
 

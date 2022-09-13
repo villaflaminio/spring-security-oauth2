@@ -1,4 +1,4 @@
-package com.flaminiovilla.security.security.oauth2.user;
+package com.flaminiovilla.security.security.oauth2.provider;
 
 import java.util.Map;
 
