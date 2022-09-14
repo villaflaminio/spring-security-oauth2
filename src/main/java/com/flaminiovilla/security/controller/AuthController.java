@@ -40,7 +40,6 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private TokenProvider tokenProvider;
     @Autowired
@@ -132,7 +131,6 @@ public class AuthController {
             ruoloUser.get().setName("ROLE_USER");
             roleRepository.save(ruoloUser.get());
         }
-
 
         ArrayList<Role> roles = new ArrayList<>();
         roles.add(ruoloUser.get());
