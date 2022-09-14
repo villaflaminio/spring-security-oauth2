@@ -4,7 +4,7 @@ import com.flaminiovilla.security.security.oauth2.CustomOAuth2UserService;
 import com.flaminiovilla.security.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.flaminiovilla.security.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.flaminiovilla.security.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import com.flaminiovilla.security.security.CustomUserDetailsService;
+import com.flaminiovilla.security.service.CustomUserDetailsService;
 import com.flaminiovilla.security.security.RestAuthenticationEntryPoint;
 import com.flaminiovilla.security.security.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;

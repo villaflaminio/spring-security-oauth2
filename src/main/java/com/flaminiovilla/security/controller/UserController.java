@@ -1,15 +1,20 @@
 package com.flaminiovilla.security.controller;
 
+import com.flaminiovilla.security.exception.BadRequestException;
 import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.CurrentUser;
 import com.flaminiovilla.security.model.dto.UserPrincipal;
+import com.flaminiovilla.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -17,6 +22,10 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
@@ -24,4 +33,32 @@ public class UserController {
         return userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
+
+    @GetMapping("/me")
+    public User changePassword(@CurrentUser UserPrincipal userPrincipal , @RequestBody String newPassword ){
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @PostMapping("/user/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("email") String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BadRequestException("User not found with email : " + userEmail));
+        return ResponseEntity.ok(customUserDetailsService.reqestResetPassword(user));
+    }
+
+    @GetMapping("/user/tokenResetPassword")
+    public ResponseEntity<?> getAuthenticationToCangePassword(@RequestParam("token") String token) {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        user.getEmail(),
+//                        user.getPassword()
+//                )
+//        );
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return customUserDetailsService.requestTokenRecoveryPassword(token);
+    }
+
 }

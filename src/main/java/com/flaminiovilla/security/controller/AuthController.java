@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -46,6 +46,9 @@ public class AuthController {
     @Autowired
     private RoleRepository roleRepository;
 
+
+
+
     @PostMapping("/login")
     public HttpServletResponse authenticateUser(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
@@ -59,7 +62,6 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return tokenProvider.createAuthResponse(authentication,response);
-        //TODO: return user
     }
     @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshtoken(@RequestParam(value = "refreshToken", required = true) String requestRefreshToken) throws Exception {
@@ -67,7 +69,7 @@ public class AuthController {
         RefreshToken refreshToken = refreshTokenService.findByToken(requestRefreshToken).orElseThrow(() -> new Exception("Refresh Token non trovato"));
         refreshTokenService.verifyExpiration(refreshToken);
         User user = refreshToken.getUser();
-        String token = tokenProvider.generateTokenFromUsername(user);
+        String token = tokenProvider.generateTokenFromUser(user);
         RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
         TokenRefreshResponse tokenRefreshResponse = new TokenRefreshResponse(token, newRefreshToken.getToken());
 
@@ -107,6 +109,9 @@ public class AuthController {
         return ResponseEntity.created(location)
                 .body(new ApiResponseDto(true, "User registered successfully@"));
     }
+
+
+
     @PostMapping("/creaUtenteIniziale")
     public ResponseEntity<?> creaUtenteIniziale(HttpServletRequest req) throws Exception {
         Role ruoloAdmin = new Role();

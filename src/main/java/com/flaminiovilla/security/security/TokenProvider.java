@@ -89,7 +89,7 @@ public class TokenProvider {
         return response;
     }
 
-    public String generateTokenFromUsername(User user) {
+    public String generateTokenFromUser(User user) {
         List<String> roles = new ArrayList<>();
         for(Role r : user.getRoles()){
             roles.add(r.getName());
@@ -108,6 +108,30 @@ public class TokenProvider {
                 .claim("rol", roles)
                 .compact();
     }
+
+
+    public AuthResponseDto generateAuthFromUser(User user) {
+
+        String token = generateTokenFromUser(user);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+        try{
+
+            return AuthResponseDto.builder()
+                    .id(user.getId())
+                    .email(user.getEmail())
+                    .name(user.getName())
+                    .role(user.getAuthorities())
+                    .token(token)
+                    .refreshToken(refreshToken.getToken())
+                    .duration(Long.toString(appProperties.getAuth().getTokenExpirationMsec()))
+                    .build();
+
+        }catch ( Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
