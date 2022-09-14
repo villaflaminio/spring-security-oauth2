@@ -4,14 +4,8 @@ Spring Security è un framework del progetto Spring che consente di gestire in m
 
 API implementate:
 
-| --- | --- | --- |
+![Untitled](OAuth2%20-%20Springboot%207008576a77c549b893f7f9d695b75f43/apiList.png)
 
-| POST | /api/auth/creaUtenteIniziale | Inizializza il db e crea il primo utente admin , verra’ eliminato in seguito |
-| POST | /api/auth/refreshToken | Riceve come paramentro il vecchio refreshToken |
-| GET | /api/user/me | Restituisce i dati base dell’utente |
-| GET | /api/auth/tokenResetPassword | passera’ come paramentro il token che e’ stato ricevuto via email, come response ottiene il JWT |
-| POST | /api/auth/recoveryPassword | Come paramentro mandare il campo email (/recoveryPassword?email=email@email.com) |
-| POST  | /api/user/changePassword | mandare nel body il campo newPassword + Authentication con JWT |
 
 Per abilitare l'accesso social con un provider OAuth2, dovrai creare un'app nella console del provider OAuth2 e ottenere ClientId e ClientSecret.
 
@@ -112,7 +106,7 @@ Nel `refreshtoken()`metodo:
 
 Un therad task ogni 5 minuiti elimina i refreshToken da database piu’ vecchi dell’expirationDate
 
-```java
+```http request
 refreshTokenRepository.deleteByExpiryDateIsLessThan(Instant.now().plusMillis(Long.parseLong(Objects.requireNonNull( env.getProperty("app.auth.refreshTokenExpiration"))) + 1000));
 ```
 
@@ -122,7 +116,7 @@ Per recuperare la password l’untente potra’ ricevere una email fornendo la p
 
 Per richiedere la mail con la nuova password , fornendo come parametro la mail:
 
-```json
+```http request
 http://localhost:8080/api/auth/recoveryPassword?email=f.villa@elis.org
 ```
 
@@ -132,7 +126,7 @@ L’utente ricevera’ una mail con questa struttura
 
 Cliccando sul link dovra’ essere fatto il redirect ad una paggina fe , che richiedera’ il JWT di sessione attraverso :
 
-```json
+```http request
 http://localhost:8080/api/auth/tokenResetPassword?token=e0ecb5ef-a3e4-4f49-a43f-59e5f6ee54e2
 ```
 
@@ -140,7 +134,7 @@ in cui passera’ come paramentro il token che e’ stato ricevuto via email, co
 
 Per il reset della password aggiungere nel body “newPassword” 
 
-```json
+```http request
 http://localhost:8080/api/user/changePassword
 ```
 
