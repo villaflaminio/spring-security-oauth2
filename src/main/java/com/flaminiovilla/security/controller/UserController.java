@@ -34,7 +34,7 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 
-    @GetMapping("/me")
+    @PostMapping("/changePassword")
     public User changePassword(@CurrentUser UserPrincipal userPrincipal , @RequestBody String newPassword ){
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
@@ -43,22 +43,8 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @PostMapping("/user/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestParam("email") String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BadRequestException("User not found with email : " + userEmail));
-        return ResponseEntity.ok(customUserDetailsService.reqestResetPassword(user));
-    }
 
-    @GetMapping("/user/tokenResetPassword")
-    public ResponseEntity<?> getAuthenticationToCangePassword(@RequestParam("token") String token) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        user.getEmail(),
-//                        user.getPassword()
-//                )
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return customUserDetailsService.requestTokenRecoveryPassword(token);
-    }
+
+
 
 }

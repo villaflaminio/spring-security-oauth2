@@ -1,6 +1,7 @@
 package com.flaminiovilla.security.service;
 
 
+import com.flaminiovilla.security.exception.BadRequestException;
 import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.PasswordResetToken;
 import com.flaminiovilla.security.model.User;
@@ -69,12 +70,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Map<String, Object> model = new HashMap<>();
         model.put("name", user.getName());
-        model.put("indirizzo", "http://localhost:8080/" + "/user/changePassword?token=" + token );
+        model.put("indirizzo", "http://localhost:8080/" + "user/changePassword?token=" + token );
         return emailService.sendEmail(user.getEmail(),"Reset password",model,"recuperoPassword");
     }
 
     public String validatePasswordResetToken(String token) {
-        final PasswordResetToken passToken = passwordResetTokenRepository.findByToken(token);
+        Optional<PasswordResetToken> userPasswToken = passwordResetTokenRepository.findByToken(token);
+        if(!userPasswToken.isPresent()) {
+            throw new BadRequestException("Token non valido");
+        }
+        final PasswordResetToken passToken = userPasswToken.get();
 
         return !isTokenFound(passToken) ? "invalidToken"
                 : isTokenExpired(passToken) ? "expired"
@@ -86,15 +91,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private boolean isTokenExpired(PasswordResetToken passToken) {
-        return passToken.getExpiryDate().compareTo(Instant.now()) >= 0;
+        return passToken.getExpiryDate().compareTo(Instant.now()) <= 0;
     }
 
-    public ResponseEntity<?> requestTokenRecoveryPassword(String token) {
+    public ResponseEntity<?> requestTokenRecoveryPassword(String token , User user) {
         String result = validatePasswordResetToken(token);
         if(result != null) {
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, result));
         } else {
-            User user = passwordResetTokenRepository.findByToken(token).getUser();
 
             return ResponseEntity.ok(tokenProvider.generateAuthFromUser(user));
         }
