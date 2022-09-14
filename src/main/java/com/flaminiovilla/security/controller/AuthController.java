@@ -25,7 +25,7 @@ import java.net.URI;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -76,8 +76,8 @@ public class AuthController {
                 .email(user.getEmail())
                 .name(user.getName())
                 .role(user.getAuthorities())
-                .token(token)
-                .refreshToken(refreshToken.getToken())
+                .token(tokenRefreshResponse.getAccessToken())
+                .refreshToken(tokenRefreshResponse.getRefreshToken())
                 .duration(Long.toString(appProperties.getAuth().getTokenExpirationMsec()))
                 .build();
 
