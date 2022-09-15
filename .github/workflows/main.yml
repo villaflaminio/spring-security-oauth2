@@ -21,7 +21,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
-        target: "/root/githubDepoy"
+        target: "/home/flaminio/repository_githubAction"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
