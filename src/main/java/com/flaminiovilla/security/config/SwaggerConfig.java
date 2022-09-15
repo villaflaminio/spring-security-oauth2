@@ -8,10 +8,17 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * The swagger configuration class.
+ * http://localhost:8080/swagger-ui.html#/
+ */
 @Configuration
 public class SwaggerConfig {
-//http://localhost:8080/swagger-ui.html#/
 
+    /**
+     * Bean to get the swagger configuration.
+     * @return the swagger configuration bean.
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -20,6 +27,4 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-// .apis(RequestHandlerSelectors.basePackage("com.flaminiovilla.bookshare.security.rest"))
-//                .apis(RequestHandlerSelectors.basePackage("com.flaminiovilla.bookshare.controller"))
 }

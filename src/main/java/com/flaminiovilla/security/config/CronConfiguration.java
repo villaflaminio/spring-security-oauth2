@@ -3,7 +3,6 @@ package com.flaminiovilla.security.config;
 import com.flaminiovilla.security.repository.PasswordResetTokenRepository;
 import com.flaminiovilla.security.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -12,14 +11,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.time.Instant;
 import java.util.Objects;
 
+/**
+ * Configuration class for scheduled tasks.
+ */
 @Configuration
 @EnableScheduling
 @AllArgsConstructor
 public class CronConfiguration {
-
     private RefreshTokenRepository refreshTokenRepository;
     private Environment env;
-
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
     // Ogni 27, 28, 1, 2, 3 e 4 del mese (1,2,3,4 successivo) ore 8.30
