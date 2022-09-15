@@ -158,21 +158,25 @@ public class AuthController {
         // Get ADMIN and USER role.
         Optional<Role> ruoloAdmin = roleRepository.findByName("ROLE_ADMIN");
         Optional<Role> ruoloUser = roleRepository.findByName("ROLE_USER");
+        ArrayList<Role> roles = new ArrayList<>();
 
         // If the roles are not present, create them.
         if(!ruoloAdmin.isPresent()) {
-            ruoloAdmin.get().setName("ROLE_ADMIN");
-            roleRepository.save(ruoloAdmin.get());
+            Role ruolo = new Role();
+            ruolo.setName("ROLE_ADMIN");
+            roles.add(roleRepository.save(ruolo));
+        }else {
+            roles.add(ruoloAdmin.get());
         }
         if(!ruoloUser.isPresent()) {
-            ruoloUser.get().setName("ROLE_USER");
-            roleRepository.save(ruoloUser.get());
+            Role ruolo = new Role();
+            ruolo.setName("ROLE_ADMIN");
+            roles.add(roleRepository.save(ruolo));
+        }else {
+            roles.add(ruoloUser.get());
         }
 
-        // Create the user with default credentials.
-        ArrayList<Role> roles = new ArrayList<>();
-        roles.add(ruoloUser.get());
-        roles.add(ruoloAdmin.get());
+
         User user = new User();
         user.setEmail("admin@flaminiovilla.it");
         user.setName("admin");
