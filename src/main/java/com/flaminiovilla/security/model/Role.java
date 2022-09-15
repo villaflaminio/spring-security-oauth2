@@ -9,6 +9,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
+/**
+ * The type Role.
+ */
 @Entity
 @Data
 @AllArgsConstructor

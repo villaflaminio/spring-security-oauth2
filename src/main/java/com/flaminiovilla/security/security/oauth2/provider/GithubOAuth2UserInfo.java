@@ -2,6 +2,9 @@ package com.flaminiovilla.security.security.oauth2.provider;
 
 import java.util.Map;
 
+/**
+ * A DTO representing basic user information for Github.
+ */
 public class GithubOAuth2UserInfo extends OAuth2UserInfo {
 
     public GithubOAuth2UserInfo(Map<String, Object> attributes) {

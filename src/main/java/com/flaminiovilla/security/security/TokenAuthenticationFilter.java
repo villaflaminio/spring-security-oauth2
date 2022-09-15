@@ -17,7 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter to manage the authentication of the user.
+ */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
+    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -25,13 +29,21 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
-
+    /**
+     * Method to filter the request and authenticate the user.
+     * @param request The request received.
+     * @param response The response to send.
+     * @param filterChain The filter chain.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+            // Get the JWT from the request.
             String jwt = getJwtFromRequest(request);
 
+            // If the JWT is valid, then get the user from the database and set it into the SecurityContextHolder.
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Long userId = tokenProvider.getUserIdFromToken(jwt);
 
@@ -45,9 +57,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             logger.error("Could not set user authentication in security context", ex);
         }
 
+        // Continue down the chain.
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Method to get the JWT from the request.
+     * @param request The request received.
+     * @return The JWT.
+     */
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

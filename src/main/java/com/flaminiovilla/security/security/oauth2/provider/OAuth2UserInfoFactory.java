@@ -5,6 +5,9 @@ import com.flaminiovilla.security.model.dto.AuthProvider;
 
 import java.util.Map;
 
+/**
+ * A factory to create OAuth2UserInfo.
+ */
 public class OAuth2UserInfoFactory {
 
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {

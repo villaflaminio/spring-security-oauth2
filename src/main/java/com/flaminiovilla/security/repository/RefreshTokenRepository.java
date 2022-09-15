@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 
+/**
+ * Repository to manage all the operations related to the refresh token.
+ */
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
   Optional<RefreshToken> findByToken(String token);
 

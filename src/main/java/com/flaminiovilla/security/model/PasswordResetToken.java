@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.Date;
 
+/**
+ * The type Password reset token.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,6 +19,7 @@ import java.util.Date;
 @Builder
 public class PasswordResetToken {
 
+    // The constant EXPIRATION.
     private static final int EXPIRATION = 60 * 24;
 
     @Id
@@ -30,9 +34,14 @@ public class PasswordResetToken {
 
     private Instant expiryDate;
 
-    public PasswordResetToken(String tokenget, User userget, Instant date) {
-        token = tokenget;
-        user = userget;
+    /**
+     * Instantiates a new Password reset token.
+     * @param token the token to be set
+     * @param user  the user
+     */
+    public PasswordResetToken(String token, User user, Instant date) {
+        this.token = token;
+        this.user = user;
         expiryDate = date;
     }
 

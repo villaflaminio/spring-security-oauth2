@@ -1,7 +1,8 @@
 package com.flaminiovilla.security.model.dto;
 
-import lombok.Data;
-
+/**
+ * This class represents the response of the token refresh.
+ */
 public class TokenRefreshResponse {
   private String accessToken;
   private String refreshToken;
