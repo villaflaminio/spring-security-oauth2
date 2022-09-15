@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
-/*
+/**
 * Class used to contain outlook mail server configuration.
-* */
+*/
 
 @Component
 public class MailSender {

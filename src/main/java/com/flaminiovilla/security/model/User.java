@@ -10,7 +10,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
+/**
+ * The type User.
+ */
 @Entity
+
+/**
+ * Define table name and unique constraints.
+ */
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
@@ -50,9 +57,14 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles = new ArrayList<Role>();
 
+    // The authorities of the user.
     @Transient
     private Set<GrantedAuthority> authorities = new HashSet<>();
 
+    /**
+     * Method to get the authorities of the user.
+     * @return
+     */
     public Collection<? extends SimpleGrantedAuthority> getAuthorities() {
 
         List<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();

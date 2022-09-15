@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.Instant;
+
+/**
+ * The type Refresh token.
+ */
 @Data
 @Entity(name = "refreshtoken")
 public class RefreshToken {

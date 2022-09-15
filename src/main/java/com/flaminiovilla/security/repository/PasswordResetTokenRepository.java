@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 
+/**
+ * Repository to manage all the operations related to the password reset token.
+ */
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
     Optional<PasswordResetToken> findByToken(String token);
 

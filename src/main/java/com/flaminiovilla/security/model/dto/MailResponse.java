@@ -3,6 +3,9 @@ package com.flaminiovilla.security.model.dto;
 
 import lombok.*;
 
+/**
+ * This class represents the response of the email.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

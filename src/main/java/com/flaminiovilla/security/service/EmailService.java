@@ -65,40 +65,6 @@ public class EmailService {
 
         return response;
     }
-
-
-
-//    Boolean isValidEmail(String to, String username, String domain){
-//        String d = "elis.org";
-//        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-//                + Pattern.quote(d) + "$";
-//        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-//
-//        if (to == null){
-//            if (username == null || domain == null){
-//                return Boolean.FALSE;
-//            }else if(username.equals("") || domain.equals("")){
-//                return Boolean.FALSE;
-//            }else{
-//                String email = username + "@" + domain;
-//                Matcher matcher = pattern.matcher(email);
-//                if (matcher.matches() && !(email.equals("null@elis.org"))){
-//                    return Boolean.TRUE;
-//                }else{
-//                    return Boolean.FALSE;
-//                }
-//            }
-//        }else{
-//            Matcher matcher = pattern.matcher(to);
-//            if (matcher.matches() && !(to.equals("null@elis.org"))){
-//                return Boolean.TRUE;
-//            }else{
-//                return Boolean.FALSE;
-//            }
-//        }
-//    }
-
-
 }
 
 

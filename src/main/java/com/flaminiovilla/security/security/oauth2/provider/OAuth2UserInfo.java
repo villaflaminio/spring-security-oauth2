@@ -2,6 +2,9 @@ package com.flaminiovilla.security.security.oauth2.provider;
 
 import java.util.Map;
 
+/**
+ * An abstract class to store all user infos.
+ */
 public abstract class OAuth2UserInfo {
     protected Map<String, Object> attributes;
 

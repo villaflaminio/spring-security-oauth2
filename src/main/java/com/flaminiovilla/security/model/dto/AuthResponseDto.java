@@ -6,6 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 
+/**
+ * This class represents the response of the authentication.
+ */
 @Data
 @Builder
 public class AuthResponseDto {
