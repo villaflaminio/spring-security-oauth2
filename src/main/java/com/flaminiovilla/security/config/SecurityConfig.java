@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true
 )
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -67,6 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
+
+        authenticationManagerBuilder.inMemoryAuthentication()
+                .withUser("elis-api")
+                .password(passwordEncoder().encode("flaminio"))
+                .authorities("ROLE_ADMIN");
     }
 
     @Bean
@@ -82,9 +87,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
-
+        web.ignoring().antMatchers("/swagger-ui/**", "/bus/v3/api-docs/**");
     }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -114,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/auth/**", "/api/oauth2/**","/swagger-ui/**")
+                    .antMatchers("/api/auth/**", "/api/oauth2/**","/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
@@ -136,4 +142,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
+
+
+
 }

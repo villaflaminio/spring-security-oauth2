@@ -1,6 +1,4 @@
 package com.flaminiovilla.security.controller;
-
-import com.flaminiovilla.security.exception.BadRequestException;
 import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.UserRepository;
@@ -8,11 +6,7 @@ import com.flaminiovilla.security.security.CurrentUser;
 import com.flaminiovilla.security.model.dto.UserPrincipal;
 import com.flaminiovilla.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +18,6 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
