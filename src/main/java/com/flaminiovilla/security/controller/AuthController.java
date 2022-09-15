@@ -91,7 +91,7 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
 
         // Trying to find the role with the given name, if not found a bad request exception will be thrown.
-        Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruolo non trovato"));
+        Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new BadRequestException("Role not found"));
 
         // Create the collection to store all the roles.
         ArrayList<Role> roles = new ArrayList<>();
@@ -170,7 +170,7 @@ public class AuthController {
         }
         if(!ruoloUser.isPresent()) {
             Role ruolo = new Role();
-            ruolo.setName("ROLE_ADMIN");
+            ruolo.setName("ROLE_USER");
             roles.add(roleRepository.save(ruolo));
         }else {
             roles.add(ruoloUser.get());
