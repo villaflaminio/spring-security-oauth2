@@ -4,21 +4,36 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Copy repository contents via scp
-      uses: garygrossgarten/github-action-scp@release
-      with:
+      - uses: actions/checkout@v2
+      - name: Copy repository contents via scp
+        uses: garygrossgarten/github-action-scp@release
+        with:
           local: .
           remote: /home/flaminio/repository_githubAction/spring-security-oauth2
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           privateKey : ${{ secrets.SSHKEY }}
-        
-   
+
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd ..
+            cd /home/flaminio/repository_githubAction/spring-security-oauth2
+            docker stop spring_security_oauth2
+            docker rm spring_security_oauth2
+            mvn clean install
+            docker build -t spring_security_oauth2 .
+            docker run -d --name spring_security_oauth2 -p 4005:8080 --add-host host.docker.internal:172.17.0.1 spring_security_oauth2
+
