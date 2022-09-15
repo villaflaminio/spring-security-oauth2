@@ -80,6 +80,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
+
+        authenticationManagerBuilder.inMemoryAuthentication()
+                .withUser("elis-api")
+                .password(passwordEncoder().encode("flaminio"))
+                .authorities("ROLE_ADMIN");
     }
 
     /**
@@ -109,8 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
-
+        web.ignoring().antMatchers("/swagger-ui/**", "/bus/v3/api-docs/**");
     }
 
     /**
@@ -147,7 +151,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/auth/**", "/api/oauth2/**","/swagger-ui/**")
+                    .antMatchers("/api/auth/**", "/api/oauth2/**","/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
