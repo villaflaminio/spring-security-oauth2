@@ -1,6 +1,5 @@
-package com.flaminiovilla.security.model.dto;
+package com.flaminiovilla.security.model;
 
-import com.flaminiovilla.security.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -6,7 +6,7 @@ import com.flaminiovilla.security.model.Role;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
-import com.flaminiovilla.security.model.dto.UserPrincipal;
+import com.flaminiovilla.security.model.UserPrincipal;
 import com.flaminiovilla.security.security.oauth2.provider.OAuth2UserInfo;
 import com.flaminiovilla.security.security.oauth2.provider.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@ import com.flaminiovilla.security.model.PasswordResetToken;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.model.dto.ApiResponseDto;
 import com.flaminiovilla.security.model.dto.MailResponse;
-import com.flaminiovilla.security.model.dto.UserPrincipal;
+import com.flaminiovilla.security.model.UserPrincipal;
 import com.flaminiovilla.security.repository.PasswordResetTokenRepository;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.TokenProvider;

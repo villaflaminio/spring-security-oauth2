@@ -70,6 +70,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         try{
             // Create auth response.
             response  = tokenProvider.createAuthResponse(authentication , response);
+             getRedirectStrategy().sendRedirect(request, response, targetUrl); // effettua il redirect aggiungendo il token di autenticazione
+
         }catch ( Exception e){
             e.printStackTrace();
         }

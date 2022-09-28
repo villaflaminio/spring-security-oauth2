@@ -4,9 +4,9 @@ import com.flaminiovilla.security.security.oauth2.CustomOAuth2UserService;
 import com.flaminiovilla.security.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.flaminiovilla.security.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.flaminiovilla.security.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import com.flaminiovilla.security.service.CustomUserDetailsService;
 import com.flaminiovilla.security.security.RestAuthenticationEntryPoint;
 import com.flaminiovilla.security.security.TokenAuthenticationFilter;
+import com.flaminiovilla.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * The security configuration class.
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -162,7 +159,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authorizationRequestRepository(cookieAuthorizationRequestRepository())
                         .and()
                     .redirectionEndpoint()
-                        .baseUri("/api/oauth2/callback/*")
+                        .baseUri("/oauth2/callback/*")
                         .and()
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService)

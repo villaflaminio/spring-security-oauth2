@@ -5,7 +5,7 @@ import com.flaminiovilla.security.model.RefreshToken;
 import com.flaminiovilla.security.model.Role;
 import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.model.dto.AuthResponseDto;
-import com.flaminiovilla.security.model.dto.UserPrincipal;
+import com.flaminiovilla.security.model.UserPrincipal;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.google.gson.Gson;
 import io.jsonwebtoken.*;
