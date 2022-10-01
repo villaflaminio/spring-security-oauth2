@@ -69,8 +69,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         clearAuthenticationAttributes(request, response);
         try{
             // Create auth response.
-            response  = tokenProvider.createAuthResponse(authentication , response);
-       //      getRedirectStrategy().sendRedirect(request, response, targetUrl); // effettua il redirect aggiungendo il token di autenticazione
+      //      response  = tokenProvider.createAuthResponse(authentication , response);
+            getRedirectStrategy().sendRedirect(request, response, targetUrl); // effettua il redirect aggiungendo il token di autenticazione
 
         }catch ( Exception e){
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String token = tokenProvider.createToken(authentication);
 
         // Add token to the cookies.
-        CookieUtils.addCookie(response, "token", token, 10);
+    //    CookieUtils.addCookie(response, "token", token, 10);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
