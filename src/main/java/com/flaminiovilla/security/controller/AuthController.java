@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import com.flaminiovilla.security.model.UserPrincipal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
