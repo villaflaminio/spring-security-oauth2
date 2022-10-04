@@ -36,5 +36,4 @@ jobs:
             docker rmi $(docker images | grep 'spring_security_oauth2')
             mvn clean install
             docker build -t spring_security_oauth2 .
-            docker run --restart=always -d --name spring_security_oauth2 -p 4005:8080 --add-host host.docker.internal:172.17.0.1 spring_security_oauth2
-
+            docker run --restart=always -d --name spring_security_oauth2 -e TZ=Europe/Rome -p 4005:8080 --add-host host.docker.internal:172.17.0.1 spring_security_oauth2
