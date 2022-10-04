@@ -2,11 +2,13 @@ package com.flaminiovilla.security.controller;
 
 import com.flaminiovilla.security.config.AppProperties;
 import com.flaminiovilla.security.exception.BadRequestException;
+import com.flaminiovilla.security.exception.ResourceNotFoundException;
 import com.flaminiovilla.security.model.*;
 import com.flaminiovilla.security.model.dto.*;
 import com.flaminiovilla.security.repository.PasswordResetTokenRepository;
 import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
+import com.flaminiovilla.security.security.CurrentUser;
 import com.flaminiovilla.security.security.RefreshTokenService;
 import com.flaminiovilla.security.security.TokenProvider;
 import com.flaminiovilla.security.service.CustomUserDetailsService;
@@ -230,5 +232,11 @@ public class AuthController {
 
         // Request the token to change the password.
         return customUserDetailsService.requestTokenRecoveryPassword(token , user);
+    }
+
+    @GetMapping("/session")
+    public ResponseEntity<?> getCredentialsOAuth2(@CurrentUser UserPrincipal userPrincipal) {
+        return customUserDetailsService.session(userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId())));
     }
 }

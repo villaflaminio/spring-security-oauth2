@@ -5,7 +5,9 @@ import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.CurrentUser;
 import com.flaminiovilla.security.model.UserPrincipal;
+import com.flaminiovilla.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.*;
  * Controller with the REST endpoints for user managament.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     /**
      * Get the current user.
@@ -56,4 +61,5 @@ public class UserController {
         // Save the user.
         return userRepository.save(user);
     }
+
 }

@@ -8,6 +8,7 @@ import com.flaminiovilla.security.model.User;
 import com.flaminiovilla.security.model.dto.ApiResponseDto;
 import com.flaminiovilla.security.model.dto.MailResponse;
 import com.flaminiovilla.security.model.UserPrincipal;
+import com.flaminiovilla.security.model.dto.SessionRequestDto;
 import com.flaminiovilla.security.repository.PasswordResetTokenRepository;
 import com.flaminiovilla.security.repository.UserRepository;
 import com.flaminiovilla.security.security.TokenProvider;
@@ -98,6 +99,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 : isTokenExpired(passToken) ? "expired"
                 : null;
     }
+
+    public ResponseEntity<?>  session(User user) {
+        return ResponseEntity.ok(tokenProvider.generateAuthFromUser(user));
+
+    }
+
 
     /**
      * Check if the token is found.
