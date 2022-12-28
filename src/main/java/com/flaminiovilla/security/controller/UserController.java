@@ -61,5 +61,8 @@ public class UserController {
         // Save the user.
         return userRepository.save(user);
     }
-
+    @GetMapping("/testGrants")
+    public String hello() {
+        return "Hello World!";
+    }
 }

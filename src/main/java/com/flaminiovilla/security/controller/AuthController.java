@@ -240,4 +240,9 @@ public class AuthController {
         return customUserDetailsService.session(userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId())));
     }
+
+    @GetMapping("/testGrants")
+    public String hello() {
+        return "Hello World!";
+    }
 }

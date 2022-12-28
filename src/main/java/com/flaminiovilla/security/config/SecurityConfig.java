@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to get the token authentication filter.
+     *
      * @return the token authentication filter bean.
      */
     @Bean
@@ -68,8 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return filterRegistrationBean;
     }
+
     /**
      * Bean to get HttpCookieOAuth2AuthorizationRequestRepository
+     *
      * @return the HttpCookieOAuth2AuthorizationRequestRepository bean.
      */
     @Bean
@@ -79,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to get the password encoder and to setup the custom user detail service.
+     *
      * @param authenticationManagerBuilder the authentication manager builder.
      * @throws Exception
      */
@@ -96,6 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to get the password encoder.
+     *
      * @return the password encoder bean using BCrypt.
      */
     @Bean
@@ -105,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to get the authentication manager.
+     *
      * @return the authentication manager bean.
      * @throws Exception
      */
@@ -116,6 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to set the rest authentication end point to ignore.
+     *
      * @param web the web security.
      * @throws Exception
      */
@@ -126,6 +133,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Bean to configure the http security.
+     *
      * @param http the http security.
      * @throws Exception
      */
@@ -133,21 +141,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                    .and()
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .formLogin()
-                    .disable()
+                .disable()
                 .httpBasic()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                    .and()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/",
+                .antMatchers("/",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",
@@ -157,25 +165,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
-                        .permitAll()
-                    .antMatchers("/api/auth/**", "/api/oauth2/**","/swagger-ui/**", "/v3/api-docs/**")
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated()
-                    .and()
+                .permitAll()
+                .antMatchers("/api/auth/**", "/api/oauth2/**", "/swagger-ui/**", "/v3/api-docs/**")
+                .permitAll()
+                .antMatchers("/api/admin/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/user/*").hasAuthority("ROLE_USER")
+                .antMatchers("/api/aut/*").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .oauth2Login()
-                    .authorizationEndpoint()
-                        .baseUri("/oauth2/authorize")
-                        .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-                        .and()
-                    .redirectionEndpoint()
-                        .baseUri("/oauth2/callback/*")
-                        .and()
-                    .userInfoEndpoint()
-                        .userService(customOAuth2UserService)
-                        .and()
-                    .successHandler(oAuth2AuthenticationSuccessHandler)
-                    .failureHandler(oAuth2AuthenticationFailureHandler);
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
         // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
