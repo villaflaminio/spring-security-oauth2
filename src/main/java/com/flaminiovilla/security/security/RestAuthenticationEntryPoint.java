@@ -22,7 +22,13 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
         logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
-        httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN,
-                e.getLocalizedMessage());
+        // Send the error code 401.
+        if(e.getMessage().equals("Full authentication is required to access this resource")){
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+        }else{
+            // Send the error code 403.
+            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+        }
+
     }
 }
