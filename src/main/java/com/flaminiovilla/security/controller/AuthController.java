@@ -91,7 +91,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
         // Check if the email is already in use.
         if(userRepository.existsByEmail(signUpRequestDto.getEmail()))
-            throw new BadRequestException("Email address already in use.");
+            return ResponseEntity.badRequest().body("Email address already in use.");
 
         // Trying to find the role with the given name, if not found a bad request exception will be thrown.
         Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new BadRequestException("Role not found"));
