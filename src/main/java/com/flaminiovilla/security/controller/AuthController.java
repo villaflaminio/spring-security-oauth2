@@ -115,7 +115,27 @@ public class AuthController {
         // Return the created user.
         return ResponseEntity.ok(result);
     }
+    /**
+     * Update the user password
+     * @param userPrincipal the current user
+     * @param newPassword the new password
+     * @return the updated user
+     */
+    @PostMapping("/changePassword")
+    public User changePassword(@CurrentUser UserPrincipal userPrincipal , @RequestBody String newPassword ){
+        // Find the current user by id.
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
+        // Update the password.
+        user.setPassword(newPassword);
+
+        // Encode the new password.
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Save the user.
+        return userRepository.save(user);
+    }
     /**
      * Refresh the JWT token.
      * @param requestRefreshToken the string to request a new token
@@ -218,7 +238,7 @@ public class AuthController {
      * @param token the request to reset the password
      * @return the response
      */
-    @GetMapping("/tokenResetPassword")
+    @PostMapping("/tokenResetPassword")
     public ResponseEntity<?> getAuthenticationToChangePassword(@RequestParam("token") String token) {
         // Find the password reset token using the given token.
         Optional<PasswordResetToken> userPasswToken = passwordResetTokenRepository.findByToken(token);

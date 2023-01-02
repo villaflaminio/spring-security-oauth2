@@ -78,7 +78,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Send the email
         Map<String, Object> model = new HashMap<>();
         model.put("name", user.getName());
-        model.put("indirizzo", "http://localhost:8080/" + "user/changePassword?token=" + token );
+        model.put("indirizzo",env.getProperty("feUrl") + "/recupera-password/" + token );
         return emailService.sendEmail(user.getEmail(),"Reset password",model,"recuperoPassword");
     }
 
