@@ -122,13 +122,13 @@ public class AuthController {
      * @return the updated user
      */
     @PostMapping("/changePassword")
-    public User changePassword(@CurrentUser UserPrincipal userPrincipal , @RequestBody String newPassword ){
+    public User changePassword(@CurrentUser UserPrincipal userPrincipal , @RequestBody ChangePasswordDto body ){
         // Find the current user by id.
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
         // Update the password.
-        user.setPassword(newPassword);
+        user.setPassword(body.getNewPassword());
 
         // Encode the new password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
