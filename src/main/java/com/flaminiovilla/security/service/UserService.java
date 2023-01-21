@@ -77,6 +77,7 @@ public class UserService {
             if (user.getImageUrl() != null) userOld.setImageUrl(user.getImageUrl());
             if (user.getName()!= null) userOld.setName(user.getName());
             if (user.getEmail()!= null)userOld.setEmail(user.getEmail());
+            if (user.getEnabled()!= null)userOld.setEnabled(user.getEnabled());
 
 
             return ResponseEntity.ok(userRepository.save(userOld));

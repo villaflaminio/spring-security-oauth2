@@ -46,6 +46,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    private Boolean enabled ;
     private String providerId;
 
     @ManyToMany(fetch = FetchType.EAGER)
