@@ -176,7 +176,7 @@ public class AuthController {
      * Create the first user in the database.
      * @return the created user
      */
-    @PostMapping("/creaUtenteIniziale")
+    @GetMapping("/creaUtenteIniziale")
     public ResponseEntity<?> creaUtenteIniziale(HttpServletRequest req){
         // Get ADMIN and USER role.
         Optional<Role> ruoloAdmin = roleRepository.findByName("ROLE_ADMIN");

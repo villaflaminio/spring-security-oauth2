@@ -1,7 +1,11 @@
 package com.flaminiovilla.security.service;
 
+import com.flaminiovilla.security.model.Role;
 import com.flaminiovilla.security.model.User;
+import com.flaminiovilla.security.model.dto.AlterUserDto;
+import com.flaminiovilla.security.repository.RoleRepository;
 import com.flaminiovilla.security.repository.UserRepository;
+import com.flaminiovilla.security.util.Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -9,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,9 +24,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(userRepository.findAll());
     }
+
     /**
      * @param probe         Dto contenente i dati della palestra da filtrare.
      * @param page          Pagina da visualizzare
@@ -52,4 +62,29 @@ public class UserService {
 
         return ResponseEntity.ok(userRepository.findAll(example, pageable));
     }
+
+    public ResponseEntity updateUser(long id, AlterUserDto user) {
+        try {
+            User userOld = userRepository.findById(id).orElseThrow(() -> new Exception("Utente non trovato"));
+            if (!user.getRoles().isEmpty()) {
+                List<Role> roles = new ArrayList<>();
+                for (String role : user.getRoles()) {
+                    roles.add(roleRepository.findByName(role).orElseThrow(() -> new Exception("Ruolo non trovato")));
+                }
+                userOld.setRoles(roles);
+
+            }
+            if (user.getImageUrl() != null) userOld.setImageUrl(user.getImageUrl());
+            if (user.getName()!= null) userOld.setName(user.getName());
+            if (user.getEmail()!= null)userOld.setEmail(user.getEmail());
+
+
+            return ResponseEntity.ok(userRepository.save(userOld));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
